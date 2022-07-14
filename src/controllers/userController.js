@@ -1,3 +1,5 @@
+const authService = require('../services/authService');
+const jwtService = require('../services/jwtService');
 const usersService = require('../services/userService');
 
 const userController = {
@@ -7,11 +9,14 @@ const userController = {
     res.status(200).json(users);
   },
   create: async (req, res) => {
-    const { displayName, email, password, image } = req.body;
+    const { displayName, email, password, image } = await authService.validateNewUser(req.body);
 
-    const newUser = await usersService.create({ displayName, email, password, image });
+    await usersService.create({ displayName, email, password, image });
+    
+    const { password: senha, ...userWithoutPassword } = req.body;
+    const token = await jwtService.createToken(userWithoutPassword);
 
-    res.status(201).json(newUser);
+    res.status(201).json({ token });
   },
 };
 
