@@ -11,6 +11,19 @@ const userService = {
     const newUser = await db.User.create({ displayName, email, password, image });
     return newUser;
   },
+  findById: async (id) => {
+    const user = await db.User.findByPk(id, {
+      attributes: { exclude: ['password'] },
+    });
+
+    if (!user) {
+      const e = new Error('User does not exist');
+      e.name = 'NotFoundError';
+      throw e;
+    }
+
+    return user;
+  },
 };
 
 module.exports = userService;

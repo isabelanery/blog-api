@@ -4,16 +4,6 @@ const usersService = require('../services/userService');
 
 const userController = {
   list: async (req, res) => {
-    const { authorization } = req.headers;
-    
-    if (!authorization) {
-      const e = new Error('Token not found');
-      e.name = 'UnauthorizedError';
-      throw e;
-    }
-    
-    await jwtService.validateToken(authorization); 
-
     const users = await usersService.list();
 
     res.status(200).json(users);
@@ -27,6 +17,13 @@ const userController = {
     const token = await jwtService.createToken(userWithoutPassword);
 
     res.status(201).json({ token });
+  },
+  findById: async (req, res) => {
+    const { id } = req.params;
+
+    const user = await usersService.findById(id);
+    
+    res.status(200).json(user);
   },
 };
 
