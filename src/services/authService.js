@@ -59,6 +59,18 @@ const authService = {
 
     return value;
   },
+  validateCategory: async (params) => {
+    const schema = Joi.object({
+      name: Joi.string().min(1).required()
+        .messages({ 'string.required': '"name" is required' }),
+    });
+
+    const { error, value } = schema.validate(params);
+
+    if (error) throw error;
+
+    return value;
+  },
 };
 
 module.exports = authService;

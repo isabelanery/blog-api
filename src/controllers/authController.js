@@ -9,7 +9,7 @@ const authController = {
 
     res.status(200).json({ token });
   },
-  validateToken: async (req, res, next) => {
+  validateToken: async (req, _res, next) => {
     const { authorization } = req.headers;
     
     if (!authorization) {
