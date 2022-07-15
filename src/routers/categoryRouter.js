@@ -10,6 +10,10 @@ router.route('/')
   .post(
     rescue(authController.validateToken),
     rescue(categoryController.create),
+  )
+  .get(
+    rescue(authController.validateToken),
+    rescue(categoryController.list),
   );
 
 module.exports = router;

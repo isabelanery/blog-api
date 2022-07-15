@@ -6,6 +6,11 @@ const categoryService = {
 
     return newCategory;
   },
+  list: async () => {
+    const categories = await db.Categories.findAll();
+
+    return categories;
+  },
 };
 
 module.exports = categoryService;
