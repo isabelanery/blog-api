@@ -4,6 +4,16 @@ const usersService = require('../services/userService');
 
 const userController = {
   list: async (req, res) => {
+    const { authorization } = req.headers;
+    
+    if (!authorization) {
+      const e = new Error('Token not found');
+      e.name = 'UnauthorizedError';
+      throw e;
+    }
+    
+    await jwtService.validateToken(authorization); 
+
     const users = await usersService.list();
 
     res.status(200).json(users);

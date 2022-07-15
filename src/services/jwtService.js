@@ -16,7 +16,7 @@ const jwtService = {
 
       return data;
     } catch (_err) {
-      const e = new Error('Token inválido');
+      const e = new Error('Expired or invalid token');
       e.name = 'UnauthorizedError';
       throw e;
     }

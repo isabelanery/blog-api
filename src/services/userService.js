@@ -2,7 +2,9 @@ const db = require('../database/models');
 
 const userService = {
   list: async () => {
-    const users = await db.User.findAll();
+    const users = await db.User.findAll({
+      attributes: { exclude: ['password'] },
+    });
     return users;
   },
   create: async ({ displayName, email, password, image }) => {
