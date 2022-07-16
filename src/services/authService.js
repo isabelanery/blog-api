@@ -71,6 +71,31 @@ const authService = {
 
     return value;
   },
+  validateBlogPost: async (params) => {
+    const schema = Joi.object({ title: Joi.string().required(),
+      content: Joi.string().required(),
+      categoryIds: Joi.array().required(),
+    });
+
+    const { error, value } = schema.validate(params);
+
+    if (error) {
+      const e = new Error('Some required fields are missing');
+      e.name = 'ValidationError';
+      throw e;
+    }
+
+    const validateCategories = await Promise.all(params.categoryIds
+      .map(async (category) => db.Category.findByPk(category)));
+
+    if (validateCategories.some((item) => !item)) {
+      const e = new Error('"categoryIds" not found');
+      e.name = 'ValidationError';
+      throw e;
+    }
+
+    return value;
+  },
 };
 
 module.exports = authService;

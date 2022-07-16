@@ -13,8 +13,14 @@ const createBlogPost = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       primaryKey: true,
     },
-    published: DataTypes.DATE,
-    updated: DataTypes.DATE,
+    published: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
+    },
+    updated: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
+    },
   }, {
     tableName: 'BlogPosts',
     timestamps: false,
