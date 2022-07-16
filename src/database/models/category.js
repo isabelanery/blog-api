@@ -1,7 +1,7 @@
 const sequelize = require('sequelize');
 
 const createCategory = (sequelize, DataTypes) => {
-  const Categories = sequelize.define('Categories', {
+  const Category = sequelize.define('Category', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -13,7 +13,7 @@ const createCategory = (sequelize, DataTypes) => {
     timestamps: false,
   });
 
-  return Categories;
+  return Category;
 };
 
 module.exports = createCategory;
