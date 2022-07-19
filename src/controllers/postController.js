@@ -32,11 +32,23 @@ const postController = {
     const { id: postId } = req.params;
     const { title, content } = req.body; 
 
-    await authService.validateUpdate({ title, content, userId, postId });
+    await authService.validateUpdate({ title, content });
+    await authService.validatePostOwnership({ userId, postId });
 
     const updated = await postService.update({ title, content, id: postId });
 
     res.status(200).json(updated);
+  },
+  remove: async (req, res) => {
+    const { authorization } = req.headers;
+    const { id: userId } = await jwtService.validateToken(authorization);
+    const { id: postId } = req.params;
+
+    await authService.validatePostOwnership({ userId, postId });
+
+    await postService.remove(postId);
+
+    res.status(204).end();
   },
 };
 

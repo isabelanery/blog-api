@@ -96,7 +96,7 @@ const authService = {
 
     return value;
   },
-  validateUpdate: async ({ title, content, userId, postId }) => {
+  validateUpdate: async ({ title, content }) => {
     const schema = Joi.object({
       title: Joi.string().required(),
       content: Joi.string().required(),
@@ -110,7 +110,18 @@ const authService = {
       throw e;
     }
 
+    return value;
+  },
+  validatePostOwnership: async ({ userId, postId }) => {
     const userOwnsPost = await db.BlogPost.findOne({ where: { id: postId, userId } });
+    
+    const post = await db.BlogPost.findByPk(postId);
+    
+    if (!post) {
+      const e = new Error('Post does not exist');
+      e.name = 'NotFoundError';
+      throw e;
+    }
     
     if (!userOwnsPost) {
       const e = new Error('Unauthorized user');
@@ -118,7 +129,7 @@ const authService = {
       throw e;
     }
 
-    return value;
+    return { userId, postId };
   },
 };
 

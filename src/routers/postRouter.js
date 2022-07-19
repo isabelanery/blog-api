@@ -24,6 +24,10 @@ router.route('/:id')
   .put(
     rescue(authController.validateToken),
     rescue(postController.update),
+  )
+  .delete(
+    rescue(authController.validateToken),
+    rescue(postController.remove),
   );
 
   module.exports = router;
