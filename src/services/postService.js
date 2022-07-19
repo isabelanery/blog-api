@@ -45,6 +45,16 @@ const postService = {
 
     return post;
   },
+  update: async ({ title, content, id }) => {
+    await db.BlogPost.update(
+      { title, content },
+      { where: { id } },
+    );
+
+    const updated = await postService.findById(id);
+    
+    return updated;
+  },
 };
 
 module.exports = postService;

@@ -96,6 +96,30 @@ const authService = {
 
     return value;
   },
+  validateUpdate: async ({ title, content, userId, postId }) => {
+    const schema = Joi.object({
+      title: Joi.string().required(),
+      content: Joi.string().required(),
+    });
+
+    const { error, value } = schema.validate({ title, content });
+
+    if (error) {
+      const e = new Error('Some required fields are missing');
+      e.name = 'ValidationError';
+      throw e;
+    }
+
+    const userOwnsPost = await db.BlogPost.findOne({ where: { id: postId, userId } });
+    
+    if (!userOwnsPost) {
+      const e = new Error('Unauthorized user');
+      e.name = 'UnauthorizedError';
+      throw e;
+    }
+
+    return value;
+  },
 };
 
 module.exports = authService;

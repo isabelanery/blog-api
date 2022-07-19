@@ -6,11 +6,11 @@ const postController = {
   create: async (req, res) => {
     const { authorization } = req.headers;
 
-    const data = await jwtService.validateToken(authorization);
+    const { id } = await jwtService.validateToken(authorization);
 
     const { title, content, categoryIds } = await authService.validateBlogPost(req.body);
 
-    const newPost = await postService.create({ title, content, categoryIds, userId: data.id });
+    const newPost = await postService.create({ title, content, categoryIds, userId: id });
 
     res.status(201).json(newPost);
   },
@@ -25,6 +25,18 @@ const postController = {
     const posts = await postService.findById(id);
 
     res.status(200).json(posts);
+  },
+  update: async (req, res) => {
+    const { authorization } = req.headers;
+    const { id: userId } = await jwtService.validateToken(authorization);
+    const { id: postId } = req.params;
+    const { title, content } = req.body; 
+
+    await authService.validateUpdate({ title, content, userId, postId });
+
+    const updated = await postService.update({ title, content, id: postId });
+
+    res.status(200).json(updated);
   },
 };
 

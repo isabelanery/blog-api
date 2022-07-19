@@ -20,6 +20,10 @@ router.route('/:id')
   .get(
     rescue(authController.validateToken),
     rescue(postController.findById),
+  )
+  .put(
+    rescue(authController.validateToken),
+    rescue(postController.update),
   );
 
   module.exports = router;
