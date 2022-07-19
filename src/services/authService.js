@@ -131,6 +131,16 @@ const authService = {
 
     return { userId, postId };
   },
+  // validateUser: async (id) => {
+  //   const user = await db.User.findByPk(id);
+
+  //   if (!user) {
+  //     const e = new Error('Unauthorized user');
+  //     e.name = 'UnauthorizedError';
+  //     throw e;
+  //   }
+
+  // },
 };
 
 module.exports = authService;

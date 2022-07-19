@@ -10,6 +10,10 @@ router.route('/')
   .get(rescue(authController.validateToken), rescue(userController.list))
   .post(rescue(userController.create));
 
+router.delete('/me', 
+  rescue(authController.validateToken),
+  rescue(userController.remove));
+
 router.get('/:id', 
   rescue(authController.validateToken),
   rescue(userController.findById));
