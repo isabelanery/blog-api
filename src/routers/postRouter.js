@@ -10,6 +10,16 @@ router.route('/')
   .post(
     rescue(authController.validateToken),
     rescue(postController.create),
+  )
+  .get(
+    rescue(authController.validateToken),
+    rescue(postController.list),
+  );
+
+router.route('/:id')
+  .get(
+    rescue(authController.validateToken),
+    rescue(postController.findById),
   );
 
   module.exports = router;
