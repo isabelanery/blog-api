@@ -50,6 +50,13 @@ const postController = {
 
     res.status(204).end();
   },
+  search: async (req, res) => {
+    const { q: query } = req.query;
+
+    const results = query === '' ? await postService.list() : await postService.search(query);
+
+    res.status(200).json(results);
+  },
 };
 
 module.exports = postController;

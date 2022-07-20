@@ -15,6 +15,12 @@ router.route('/')
     rescue(authController.validateToken),
     rescue(postController.list),
   );
+    
+router.route('/search')
+  .get(
+    rescue(authController.validateToken),
+    rescue(postController.search),
+  );
 
 router.route('/:id')
   .get(
