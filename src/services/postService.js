@@ -1,5 +1,5 @@
-const db = require('../database/models');
 const sequelize = require('sequelize');
+const db = require('../database/models');
 
 const postService = {
   create: async ({ title, content, categoryIds, userId }) => {
