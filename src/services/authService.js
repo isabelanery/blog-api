@@ -17,7 +17,7 @@ const authService = {
       throw e;
     }
 
-    return value;
+  return value;
   },
   validateLogin: async ({ email, password }) => {
     const user = await db.User.findOne({ where: { email } });
